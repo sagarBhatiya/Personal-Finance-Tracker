@@ -1,15 +1,9 @@
 import React from "react";
-
+import {useGlobalContext} from '../components/globalContext'
 function History() {
-  const transactionHistory = () => [
-    { _id: 1, title: "Rent", amount: 5000, type: "expense" },
-    { _id: 2, title: "Groceries", amount: 2000, type: "expense" },
-    { _id: 3, title: "Salary", amount: 50000, type: "income" },
-    { _id: 4, title: "Stock Dividends", amount: 1000, type: "income" },
-    { _id: 5, title: "Insurance", amount: 2000, type: "expense" },
-    { _id: 6, title: "Phone Bill", amount: 300, type: "expense" },
-  ];
-  const history = transactionHistory();
+  const {transactionHistory} = useGlobalContext()
+
+  const [...history] = transactionHistory()
 
   return (
     <div>

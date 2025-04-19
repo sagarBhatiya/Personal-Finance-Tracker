@@ -1,28 +1,14 @@
 import React from "react";
 import ExpenseForm from "../components/ExpenseForm";
 import IncomeItem from "../components/IncomeItem";
-
+import { useEffect } from "react";
+import { useGlobalContext } from "../components/globalContext";
 function Expenses() {
-  const expenses = [
-    {
-      id: 1,
-      title: "Rent",
-      amount: 1200,
-      date: "2025-03-01",
-      category: "Housing",
-      description: "Monthly rent",
-      type: "expense",
-    },
-    {
-      id: 2,
-      title: "Groceries",
-      amount: 200,
-      date: "2025-03-05",
-      category: "Food",
-      description: "Weekly groceries",
-      type: "expense",
-    },
-  ];
+  const {addIncome,expenses, getExpenses, deleteExpense, totalExpenses} = useGlobalContext()
+
+  useEffect(() =>{
+      getExpenses()
+  }, [])
 
   return (
     <div className="flex flex-col overflow-auto p-6">

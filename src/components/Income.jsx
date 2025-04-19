@@ -1,36 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import Form from "../components/Form";
 import IncomeItem from "../components/IncomeItem";
-
+import  { useGlobalContext } from '../components/globalContext'
 function Income() {
-  const [incomes, setIncomes] = useState([
-    {
-      _id: 1,
-      title: "Freelance Work",
-      amount: 4500,
-      date: "2025-03-01",
-      category: "Salary",
-      description: "Payment from client",
-      type: "income",
-    },
-    {
-      _id: 2,
-      title: "Stock Dividends",
-      amount: 2200,
-      date: "2025-03-05",
-      category: "Investment",
-      description: "Quarterly dividends",
-      type: "income",
-    },
-  ]);
+  const {addIncome,incomes, getIncomes, deleteIncome, totalIncome} = useGlobalContext()
 
-  const totalIncome = () => {
-    return incomes.reduce((acc, curr) => acc + curr.amount, 0);
-  };
-
-  const deleteIncome = (id) => {
-    setIncomes(incomes.filter((income) => income._id !== id));
-  };
+    useEffect(() =>{
+        getIncomes()
+    }, [])
 
   return (
     <div className="flex flex-col p-6">
