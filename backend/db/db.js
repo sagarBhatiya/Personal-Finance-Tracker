@@ -1,15 +1,11 @@
 import mongoose from 'mongoose';
 
-mongoose.connect('mongodb://127.0.0.1:27017/FinanceTrackerDb');
-
-const db = mongoose.connection;
-
-db.on('error', (err) => {
-    console.log(err);
-});
-
-db.on('open', () => {
-    console.log('Connected to database');
-});
-
-export default db;
+export const connectDB = async (MONGO_URL) => {
+  try {
+    mongoose.set('strictQuery', false);
+    await mongoose.connect(MONGO_URL);
+    console.log('DB Connected');
+  } catch (error) {
+    console.log('DB Connection Error:', error.message);
+  }
+};
