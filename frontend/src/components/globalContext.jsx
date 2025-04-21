@@ -1,7 +1,8 @@
 import React, { useContext, useState } from "react";
 import axios from 'axios';
 
-const BASE_URL = "http://localhost:8000/transaction";
+const BASE_URL = "/transaction";
+
 
 const GlobalContext = React.createContext();
 

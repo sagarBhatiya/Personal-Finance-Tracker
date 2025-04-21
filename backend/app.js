@@ -3,7 +3,7 @@ import transactionRoutes from './routes/transactions.js'
 
 import express from 'express';
 import cors from 'cors';
-import {connectDB} from './db/db.js'; 
+import connectDB from './db/db.js'; 
 
 // app config
 const app = express();

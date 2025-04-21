@@ -14,9 +14,9 @@ function Expenses() {
     <div className="flex flex-col overflow-auto p-6">
       <h1 className="text-3xl font-bold text-center">Expenses</h1>
       <h2 className="text-2xl flex justify-center items-center bg-gray-100 border-2 border-white shadow-md rounded-2xl p-4 my-4">
-        Total Expense:{" "}
+        Total Expense:
         <span className="text-3xl font-extrabold text-green-600 ml-2">
-          Rs 1400
+        ${totalExpenses()}
         </span>
       </h2>
       <div className="flex gap-8">

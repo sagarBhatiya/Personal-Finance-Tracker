@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import DatePicker from 'react-datepicker'
+import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import { useGlobalContext } from "../components/globalContext";
+
 function Form() {
-    const {addIncome, getIncomes, error, setError} = useGlobalContext()
+    const { addIncome, getIncomes, error, setError } = useGlobalContext();
     const [inputState, setInputState] = useState({
         title: '',
         amount: '',
@@ -20,7 +21,17 @@ function Form() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log("Submitted Data:", inputState);
+
+        
+        if (!title || !amount || !date || !category) {
+            setError("Please fill all required fields.");
+            return;
+        }
+
+        // Call addIncome from context to send data to the backend
+        addIncome(inputState);
+
+        // Reset form state after submission
         setInputState({
             title: '',
             amount: '',
@@ -28,11 +39,16 @@ function Form() {
             category: '',
             description: '',
         });
+
+       
+        setError(null);
     };
 
     return (
         <form onSubmit={handleSubmit} className="max-w-md mx-auto bg-white p-6 rounded-lg shadow-md space-y-4">
             <h2 className="text-xl font-bold text-gray-700 text-center">Add Income</h2>
+
+            {error && <p className="text-red-500 text-sm">{error}</p>} {/* Display error message */}
 
             <input 
                 type="text" 

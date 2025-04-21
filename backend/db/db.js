@@ -1,11 +1,21 @@
+// db/db.js
 import mongoose from 'mongoose';
 
-export const connectDB = async (MONGO_URL) => {
+
+const MONGO_URL = 'mongodb+srv://sagarbhatiya:Sagar%40170304@cluster0.aiyt4iq.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
+
+const connectDB = async () => {
   try {
-    mongoose.set('strictQuery', false);
-    await mongoose.connect(MONGO_URL);
-    console.log('DB Connected');
-  } catch (error) {
-    console.log('DB Connection Error:', error.message);
+    const conn = await mongoose.connect(MONGO_URL, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+    
+    console.log(`MongoDB Connected: ${conn.connection.host}`);
+  } catch (err) {
+    console.error(`Error: ${err.message}`);
+    process.exit(1);
   }
 };
+
+export default connectDB;
