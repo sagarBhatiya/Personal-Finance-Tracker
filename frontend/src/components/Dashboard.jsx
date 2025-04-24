@@ -9,7 +9,7 @@ function Dashboard() {
     useEffect(() => {
         getIncomes()
         getExpenses()
-    }, [])
+    }, [getIncomes,getExpenses])
   return (
     <div className="p-8 space-y-6 flex gap-30">
       <Nav />
@@ -44,19 +44,19 @@ function Dashboard() {
                         <h2 className="salary-title">Min <span>Salary</span>Max</h2>
                         <div className="salary-item">
                             <p>
-                                ${Math.min(...incomes.map(item => item.amount))}
+                                ₹{Math.min(...incomes.map(item => item.amount))}
                             </p>
                             <p>
-                                ${Math.max(...incomes.map(item => item.amount))}
+                                ₹{Math.max(...incomes.map(item => item.amount))}
                             </p>
                         </div>
                         <h2 className="salary-title">Min <span>Expense</span>Max</h2>
                         <div className="salary-item">
                             <p>
-                                ${Math.min(...expenses.map(item => item.amount))}
+                                ₹{Math.min(...expenses.map(item => item.amount))}
                             </p>
                             <p>
-                                ${Math.max(...expenses.map(item => item.amount))}
+                                ₹{Math.max(...expenses.map(item => item.amount))}
                             </p>
                         </div>
                     </div>

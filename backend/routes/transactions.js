@@ -4,11 +4,13 @@ import { addIncome, getIncomes, deleteIncome } from '../controllers/income.js';
 
 const router = Router();
 
-router.post('/transaction/add-income', addIncome)
-router.get('/transaction/get-incomes', getIncomes)
-router.delete('/transaction/delete-income/:id', deleteIncome)
-router.post('/transaction/add-expense', addExpense)
-router.get('/transaction/get-expenses', getExpense)
-router.delete('/transaction/delete-expense/:id', deleteExpense);
+router.post('/add-income', addIncome)
+router.get('/get-incomes', getIncomes)
+router.delete('/delete-income/:id', deleteIncome)
+
+router.post('/add-expense', addExpense)
+router.get('/get-expenses', getExpense)
+router.delete('/delete-expense/:id', deleteExpense)
+
 
 export default router;

@@ -4,11 +4,11 @@ import IncomeItem from "../components/IncomeItem";
 import { useEffect } from "react";
 import { useGlobalContext } from "../components/globalContext";
 function Expenses() {
-  const {addIncome,expenses, getExpenses, deleteExpense, totalExpenses} = useGlobalContext()
+  const {expenses, getExpenses, totalExpenses} = useGlobalContext()
 
   useEffect(() =>{
       getExpenses()
-  }, [])
+  }, [getExpenses])
 
   return (
     <div className="flex flex-col overflow-auto p-6">

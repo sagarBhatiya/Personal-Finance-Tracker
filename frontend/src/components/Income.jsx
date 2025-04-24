@@ -3,11 +3,11 @@ import Form from "../components/Form";
 import IncomeItem from "../components/IncomeItem";
 import  { useGlobalContext } from '../components/globalContext'
 function Income() {
-  const {addIncome,incomes, getIncomes, deleteIncome, totalIncome} = useGlobalContext()
+  const {incomes, getIncomes, deleteIncome, totalIncome} = useGlobalContext()
 
     useEffect(() =>{
         getIncomes()
-    }, [])
+    }, [getIncomes])
 
   return (
     <div className="flex flex-col p-6">
