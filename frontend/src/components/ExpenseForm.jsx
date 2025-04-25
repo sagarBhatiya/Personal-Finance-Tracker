@@ -2,8 +2,10 @@ import React, { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { plus } from "../utils/Icons";
+import { useGlobalContext } from "../components/globalContext";
 
 function ExpenseForm() {
+  const { addExpense, setError } = useGlobalContext();
   const [inputState, setInputState] = useState({
     title: "",
     amount: "",
@@ -16,11 +18,33 @@ function ExpenseForm() {
 
   const handleInput = (name) => (e) => {
     setInputState({ ...inputState, [name]: e.target.value });
-    
+    setError(""); // Clear any previous errors
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    // Validate the form
+    if (!title || !amount || !date || !category) {
+      setError("All fields are required!");
+      return;
+    }
+
+    if (isNaN(amount) || parseFloat(amount) <= 0) {
+      setError("Amount must be a positive number!");
+      return;
+    }
+
+    // Add the expense
+    addExpense({
+      title,
+      amount: parseFloat(amount), // Ensure amount is a number
+      date,
+      category,
+      description,
+    });
+
+    // Reset the form after successful submission
     setInputState({
       title: "",
       amount: "",

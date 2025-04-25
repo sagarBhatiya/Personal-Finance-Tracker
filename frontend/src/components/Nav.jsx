@@ -20,7 +20,7 @@ function Nav() {
 
       <div className="font-semibold flex flex-col gap-10 mt-8">
         <Link to="/">Dashboard</Link>
-        <Link to="/Transaction">Transaction</Link>
+        
         <Link to="/Income">Income</Link>
         <Link to="/Expenses">Expenses</Link>
       </div>

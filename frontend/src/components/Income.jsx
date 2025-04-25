@@ -1,19 +1,19 @@
 import React, { useEffect } from "react";
 import Form from "../components/Form";
 import IncomeItem from "../components/IncomeItem";
-import  { useGlobalContext } from '../components/globalContext'
+import { useGlobalContext } from "../components/globalContext";
 function Income() {
-  const {incomes, getIncomes, deleteIncome, totalIncome} = useGlobalContext()
+  const { incomes, getIncomes, deleteIncome, totalIncome } = useGlobalContext();
 
-    useEffect(() =>{
-        getIncomes()
-    }, [getIncomes])
+  useEffect(() => {
+    getIncomes();
+  }, [getIncomes]);
 
   return (
     <div className="flex flex-col p-6">
       <h1 className="text-3xl font-bold mb-4">Incomes</h1>
       <h2 className="flex justify-center items-center bg-pink-100 border-2 border-white shadow-md rounded-2xl p-4 my-4 text-2xl gap-2">
-        Total Income:{" "}
+        Total Income:
         <span className="text-3xl font-extrabold text-green-500">
           Rs{totalIncome()}
         </span>
