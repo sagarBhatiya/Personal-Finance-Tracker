@@ -3,17 +3,17 @@ import Dashboard from "./components/Dashboard";
 
 import Income from "./components/Income";
 import Expenses from "./components/Expenses";
-import Signup from "./components/signup";
-import Login from "./components/login";
+import Signup from "./components/Signup";
+import Login from "./components/Login";
 function App() {
   return (
     <>
       <Routes>
         <Route path="/" element={<Dashboard />} />
-        <Route path="/register" element={<Signup />} />
+        <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/Income" element={<Income />} />
-        <Route path="/Expenses" element={<Expenses />} />
+        <Route path="/income" element={<Income />} />
+        <Route path="/expenses" element={<Expenses />} />
       </Routes>
     </>
   );
