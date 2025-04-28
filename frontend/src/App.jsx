@@ -1,11 +1,13 @@
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import Dashboard from "./components/Dashboard";
 
 import Income from "./components/Income";
 import Expenses from "./components/Expenses";
 import Signup from "./components/Signup";
 import Login from "./components/Login";
+
 function App() {
+ 
   return (
     <>
       <Routes>

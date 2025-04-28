@@ -4,7 +4,7 @@ import IncomeItem from "../components/IncomeItem";
 import { useEffect } from "react";
 import { useGlobalContext } from "../components/globalContext";
 function Expenses() {
-  const {expenses, getExpenses, totalExpenses} = useGlobalContext()
+  const {expenses, getExpenses,deleteExpense, totalExpenses} = useGlobalContext()
 
   useEffect(() =>{
       getExpenses()
@@ -16,7 +16,7 @@ function Expenses() {
       <h2 className="text-2xl flex justify-center items-center bg-gray-100 border-2 border-white shadow-md rounded-2xl p-4 my-4">
         Total Expense:
         <span className="text-3xl font-extrabold text-green-600 ml-2">
-        ${totalExpenses()}
+        Rs{totalExpenses()}
         </span>
       </h2>
       <div className="flex gap-8">
@@ -25,15 +25,18 @@ function Expenses() {
         </div>
         <div className="flex-1 space-y-4">
           {expenses.map(
-            ({ id, title, amount, date, category, description, type }) => (
-              <IncomeItem
-                key={id}
+            ({ _id, title, amount, date, category, description, type }) => (
+            <IncomeItem
+                key={_id}
+                id={_id}
                 title={title}
                 description={description}
                 amount={amount}
                 date={date}
                 type={type}
                 category={category}
+                indicatorColor="var(--color-green)"
+                deleteItem={deleteExpense}
               />
             )
           )}

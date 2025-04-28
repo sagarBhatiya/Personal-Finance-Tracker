@@ -107,7 +107,7 @@ function ExpenseForm() {
         type="submit"
         className="bg-blue-500 text-white p-3 rounded flex items-center justify-center gap-2 hover:bg-blue-600"
       >
-        <img src={plus} alt="plus-icon" className="w-4 h-4" /> Add Expense
+        {plus}Add Expense
       </button>
     </form>
   );
