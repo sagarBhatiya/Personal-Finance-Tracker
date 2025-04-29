@@ -26,7 +26,7 @@ function Dashboard() {
 
       <div className="flex-1 bg-gray-100 p-6 rounded-lg shadow-lg space-y-6">
         <div className="flex flex-col gap-6 w-full">
-          <Chart />
+          <Chart income={totalIncome()} expense={totalExpenses()} balance={totalBalance()} />
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
             <div className="bg-white p-6 rounded-lg shadow-md">
               <h2 className="text-xl font-semibold text-gray-700">Total Income</h2>

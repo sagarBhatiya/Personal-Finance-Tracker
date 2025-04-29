@@ -19,13 +19,13 @@ ChartJs.register(
   LinearScale
 );
 
-function Chart() {
+function Chart({income,expense,balance}) {
   const data = {
     labels: ["Income", "Expense", "Balance"],
     datasets: [
       {
         label: "Transaction Breakdown",
-        data: [50, 100, 200],
+        data: [income, expense, balance],
         backgroundColor: ["#4CAF50", "#F44336", "#2196F3"],
         hoverOffset: 4,
       },
