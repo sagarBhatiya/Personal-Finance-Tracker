@@ -1,4 +1,4 @@
-import { Route, Routes, useNavigate } from "react-router-dom";
+import { Route, Routes} from "react-router-dom";
 import Dashboard from "./components/Dashboard";
 
 import Income from "./components/Income";
@@ -11,8 +11,9 @@ function App() {
   return (
     <>
       <Routes>
-        <Route path="/" element={<Dashboard />} />
-        <Route path="/signup" element={<Signup />} />
+      <Route path="/" element={<Signup />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+        
         <Route path="/login" element={<Login />} />
         <Route path="/income" element={<Income />} />
         <Route path="/expenses" element={<Expenses />} />

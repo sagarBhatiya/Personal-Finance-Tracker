@@ -17,7 +17,7 @@ const Signup = () => {
   const onSubmitHandler = async (e) => {
     e.preventDefault();
 
-    // Frontend validation (Basic check)
+   
     if (!user.fullName || !user.username || !user.password || !user.confirmPassword || !user.gender) {
       toast.error("Please fill in all fields");
       return;
@@ -42,7 +42,7 @@ const Signup = () => {
       
       if (res.data.success) {
         toast.success(res.data.message);
-        navigate("/login");  // Navigate to login page after successful signup
+        navigate("/dashboard"); 
       }
     } catch (error) {
       // Display the error from backend API
