@@ -23,7 +23,11 @@ function Nav() {
   return (
     <nav className="w-[80vw] sm:w-[350px] lg:w-[374px] h-full bg-white/80 border-3 border-white backdrop-blur-md rounded-3xl flex flex-col justify-between gap-8 p-6 md:p-8">
       <div className="flex items-center gap-4 h-[100px]">
-        <img src={user?.profilePhoto || avatar} alt="Avatar" className="w-14 h-14 rounded-full" />
+        <img
+          src={user?.profilePhoto || avatar}
+          alt="Avatar"
+          className="w-14 h-14 rounded-full"
+        />
         <div>
           <h2 className="font-semibold text-lg">{user?.fullname || "Guest"}</h2>
           <p className="text-primary/60">Your Money</p>
@@ -31,9 +35,24 @@ function Nav() {
       </div>
 
       <div className="font-semibold flex flex-col gap-6 mt-6">
-        <Link to="/" className="hover:text-primary transition-all duration-300">Dashboard</Link>
-        <Link to="/Income" className="hover:text-primary transition-all duration-300">Income</Link>
-        <Link to="/Expenses" className="hover:text-primary transition-all duration-300">Expenses</Link>
+        <Link
+          to="/dashboard"
+          className="hover:text-primary transition-all duration-300"
+        >
+          Dashboard
+        </Link>
+        <Link
+          to="/Income"
+          className="hover:text-primary transition-all duration-300"
+        >
+          Income
+        </Link>
+        <Link
+          to="/Expenses"
+          className="hover:text-primary transition-all duration-300"
+        >
+          Expenses
+        </Link>
       </div>
 
       <div
