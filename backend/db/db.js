@@ -1,7 +1,10 @@
 import mongoose from "mongoose";
+import dotenv from "dotenv";
 
-const MONGO_URL =
-  "mongodb+srv://sagarbhatiya:Sagar%40170304@cluster0.aiyt4iq.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+// Load environment variables
+dotenv.config();
+
+const MONGO_URL = process.env.MONGO_URL;
 
 const connectDB = async () => {
   try {
