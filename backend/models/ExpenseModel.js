@@ -35,7 +35,6 @@ const ExpenseSchema = new mongoose.Schema({
     },
 }, { timestamps: true });
 
-// Check if the model already exists to avoid redefinition
 const Expense = mongoose.models.Expense || mongoose.model('Expense', ExpenseSchema);
 
 export default Expense;

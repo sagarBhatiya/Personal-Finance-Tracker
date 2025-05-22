@@ -11,7 +11,7 @@ dotenv.config();
 const app = express();
 const PORT = 8000;
 const MONGO_URL =
-  "mongodb+srv://sagarbhatiya:Sagar%40170304@cluster0.aiyt4iq.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+  process.env.MONGO_URL
 
 console.log("PORT:", PORT);
 console.log("MONGO_URL:", MONGO_URL);

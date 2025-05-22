@@ -38,7 +38,7 @@ const IncomeSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-// Check if the model is already defined, if not define it
+
 const Income = mongoose.models.Income || mongoose.model('Income', IncomeSchema);
 
 export default Income;
