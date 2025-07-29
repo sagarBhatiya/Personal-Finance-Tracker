@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import axios from "axios";
 
-const BASE_URL = "/transaction";
+const BASE_URL = "https://personal-finance-tracker-backend-k1nl.onrender.com";
 
 const GlobalContext = React.createContext();
 
