@@ -8,7 +8,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/transaction': {
-        target: 'http://localhost:8000',
+        target: 'https://personal-finance-tracker-backend-k1nl.onrender.com',
         changeOrigin: true,
        
       },
