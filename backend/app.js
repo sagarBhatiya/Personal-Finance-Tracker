@@ -29,7 +29,7 @@ const corsOption = {
 app.use(cors(corsOption));
 
 // db connection
-connectDB();
+await connectDB();
 
 //api endpoints
 app.use("/transaction", transactionRoutes);
@@ -39,6 +39,9 @@ app.get("/", (req, res) => {
   res.send("Hello from the backend!");
 });
 
-app.listen(PORT, () => {
-  console.log(`Server Started on http://localhost:${PORT}`);
-});
+(async () => {
+  await connectDB();
+  app.listen(PORT, () => {
+    console.log(`Server Started on http://localhost:${PORT}`);
+  });
+})();
