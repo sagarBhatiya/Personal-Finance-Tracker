@@ -2,11 +2,13 @@ import axios from "axios";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
+import { useGlobalContext } from "./globalContext";
 
 const Login = () => {
   const navigate = useNavigate();
+  const { setUser: setGlobalUser } = useGlobalContext();
 
-  const [user, setUser] = useState({
+  const [formState, setFormState] = useState({
     username: "",
     password: "",
   });
@@ -15,8 +17,8 @@ const Login = () => {
     e.preventDefault();
     try {
       const res = await axios.post(
-        `http://localhost:8000/api/v1/user/login`,
-        user,
+        `/api/v1/user/login`,
+        formState,
         {
           headers: { "Content-Type": "application/json" },
           withCredentials: true,
@@ -24,6 +26,8 @@ const Login = () => {
       );
 
       toast.success("Login Successful!");
+      localStorage.setItem("user", JSON.stringify(res.data));
+      setGlobalUser(res.data);
       navigate("/dashboard");
       console.log(res);
     } catch (error) {
@@ -32,94 +36,75 @@ const Login = () => {
         error.response?.data?.message || "Login failed. Please try again."
       );
     }
-    setUser({
+    setFormState({
       username: "",
       password: "",
     });
   };
 
   return (
-    <div className="flex h-screen justify-center dark:bg-gray-600">
-      <div
-        style={{ animation: "slideInFromLeft 1s ease-out" }}
-        className="max-w-md w-full bg-gradient-to-r from-blue-800 to-purple-600 rounded-xl shadow-2xl overflow-hidden p-8 space-y-8 flex flex-col justify-center items-center"
-      >
-        <h2
-          style={{ animation: "appear 2s ease-out" }}
-          className="text-center text-4xl font-extrabold text-white"
-        >
-          Welcome
-        </h2>
+    <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-[#0c0a1a] via-[#05040a] to-[#0d091e] relative overflow-hidden">
+      {/* Decorative blurred glow circles */}
+      <div className="absolute top-1/4 left-1/4 w-72 h-72 rounded-full bg-indigo-600/10 blur-[100px] pointer-events-none"></div>
+      <div className="absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full bg-purple-600/10 blur-[100px] pointer-events-none"></div>
 
-        <p
-          style={{ animation: "appear 3s ease-out" }}
-          className="text-center text-gray-200"
-        >
-          Sign in to your account
-        </p>
+      <div className="glass-panel max-w-md w-full rounded-3xl p-8 md:p-10 space-y-8 flex flex-col justify-center items-center relative z-10 border border-white/5 shadow-2xl">
+        <div className="text-center space-y-2">
+          <h2 className="text-4xl font-extrabold tracking-tight text-white bg-gradient-to-r from-white via-gray-200 to-gray-400 bg-clip-text text-transparent">
+            Welcome Back
+          </h2>
+          <p className="text-gray-400 text-sm">
+            Sign in to manage your personal finance tracker
+          </p>
+        </div>
 
-        <form
-          onSubmit={onSubmitHandler}
-          method="POST"
-          action="#"
-          className="space-y-6 w-full"
-        >
-          <div className="relative">
-            <input
-              value={user.username}
-              onChange={(e) => setUser({ ...user, username: e.target.value })}
-              placeholder="UserName"
-              className="peer h-10 w-full border-b-2 border-gray-300 text-white bg-transparent placeholder-transparent focus:outline-none focus:border-purple-500"
-              required
-              id="username"
-              name="username"
-              type="text"
-            />
-            <label
-              className="absolute left-0 -top-3.5 text-gray-500 text-sm transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-2 peer-focus:-top-3.5 peer-focus:text-purple-500 peer-focus:text-sm"
-              htmlFor="username"
-            >
+        <form onSubmit={onSubmitHandler} className="space-y-6 w-full">
+          <div className="space-y-1">
+            <label className="text-xs font-semibold text-gray-400 uppercase tracking-wider" htmlFor="username">
               Username
             </label>
+            <input
+              value={formState.username}
+              onChange={(e) => setFormState({ ...formState, username: e.target.value })}
+              placeholder="Enter your username"
+              className="custom-input w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500/50 transition-all duration-200"
+              required
+              id="username"
+              type="text"
+            />
           </div>
 
-          <div className="relative">
+          <div className="space-y-1">
+            <div className="flex justify-between items-center">
+              <label className="text-xs font-semibold text-gray-400 uppercase tracking-wider" htmlFor="password">
+                Password
+              </label>
+              <a className="text-xs text-indigo-400 hover:text-indigo-300 hover:underline transition" href="#">
+                Forgot password?
+              </a>
+            </div>
             <input
-              value={user.password}
-              onChange={(e) => setUser({ ...user, password: e.target.value })}
-              placeholder="Password"
-              className="peer h-10 w-full border-b-2 border-gray-300 text-white bg-transparent placeholder-transparent focus:outline-none focus:border-purple-500"
+              value={formState.password}
+              onChange={(e) => setFormState({ ...formState, password: e.target.value })}
+              placeholder="Enter your password"
+              className="custom-input w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500/50 transition-all duration-200"
               required
               id="password"
-              name="password"
               type="password"
             />
-            <label
-              className="absolute left-0 -top-3.5 text-gray-500 text-sm transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-2 peer-focus:-top-3.5 peer-focus:text-purple-500 peer-focus:text-sm"
-              htmlFor="password"
-            >
-              Password
-            </label>
-          </div>
-
-          <div className="flex items-center justify-between">
-            <label className="flex items-center text-sm text-gray-200"></label>
-            <a className="text-sm text-purple-200 hover:underline" href="#">
-              Forgot your password?
-            </a>
           </div>
 
           <button
-            className="w-full py-2 px-4 bg-purple-500 hover:bg-purple-700 rounded-md shadow-lg text-white font-semibold transition duration-200"
+            className="w-full py-3 px-4 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 active:scale-[0.98] rounded-xl shadow-lg shadow-indigo-600/20 text-white font-semibold transition-all duration-200"
             type="submit"
           >
-            Login
+            Sign In
           </button>
         </form>
 
-        <div className="text-center text-gray-300">
+        <div className="text-center text-sm text-gray-400">
           Don't have an account?{" "}
-          <Link to="/signup" className="text-purple-300 hover:underline">
+          <Link to="/signup" className="text-indigo-400 hover:text-indigo-300 hover:underline font-medium transition">
             Sign up
           </Link>
         </div>

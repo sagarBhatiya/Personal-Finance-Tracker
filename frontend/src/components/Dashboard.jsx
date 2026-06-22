@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import Chart from "./Chart";
 import History from "./History";
-import Nav from "./Nav";
 import { useGlobalContext } from "../components/globalContext";
 
 function Dashboard() {
@@ -18,72 +17,120 @@ function Dashboard() {
   useEffect(() => {
     getIncomes();
     getExpenses();
-  }, [getIncomes, getExpenses]);
+  }, []);
+
+  // Safe checks for min/max to prevent Infinity/-Infinity when lists are empty
+  const minSalary = incomes.length > 0 ? Math.min(...incomes.map((item) => item.amount)) : 0;
+  const maxSalary = incomes.length > 0 ? Math.max(...incomes.map((item) => item.amount)) : 0;
+  const minExpense = expenses.length > 0 ? Math.min(...expenses.map((item) => item.amount)) : 0;
+  const maxExpense = expenses.length > 0 ? Math.max(...expenses.map((item) => item.amount)) : 0;
 
   return (
-    <div className="p-6 space-y-6 flex gap-6">
-      <Nav />
+    <div className="space-y-8 animate-fade-in">
+      {/* Page Header */}
+      <div>
+        <h1 className="text-3xl font-extrabold text-white tracking-wide">
+          Financial Overview
+        </h1>
+        <p className="text-gray-400 text-sm mt-1">
+          Monitor your incomes, expenses, and net balance breakdown
+        </p>
+      </div>
 
-      <div className="flex-1 bg-gray-100 p-6 rounded-lg shadow-lg space-y-6">
-        <div className="flex flex-col gap-6 w-full">
-          <Chart income={totalIncome()} expense={totalExpenses()} balance={totalBalance()} />
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
-            <div className="bg-white p-6 rounded-lg shadow-md">
-              <h2 className="text-xl font-semibold text-gray-700">Total Income</h2>
-              <p className="text-2xl font-bold text-green-500">Rs {totalIncome()}</p>
+      {/* Main Grid: Statistics & Charts */}
+      <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
+        
+        {/* Left Column: Summary Cards & Chart */}
+        <div className="xl:col-span-2 space-y-6 flex flex-col">
+          {/* Summary Stat Cards Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+            {/* Total Income */}
+            <div className="bg-gradient-to-br from-emerald-500/10 to-teal-600/5 border border-emerald-500/20 rounded-2xl p-6 shadow-lg shadow-emerald-500/5 hover:border-emerald-500/30 transition duration-300">
+              <h2 className="text-xs font-semibold text-emerald-400 uppercase tracking-wider">
+                Total Income
+              </h2>
+              <p className="text-3xl font-bold text-emerald-400 mt-2">
+                ₹{totalIncome().toLocaleString()}
+              </p>
             </div>
-            <div className="bg-white p-6 rounded-lg shadow-md">
-              <h2 className="text-xl font-semibold text-gray-700">Total Expense</h2>
-              <p className="text-2xl font-bold text-red-500">Rs {totalExpenses()}</p>
+
+            {/* Total Expense */}
+            <div className="bg-gradient-to-br from-rose-500/10 to-red-600/5 border border-rose-500/20 rounded-2xl p-6 shadow-lg shadow-rose-500/5 hover:border-rose-500/30 transition duration-300">
+              <h2 className="text-xs font-semibold text-rose-400 uppercase tracking-wider">
+                Total Expenses
+              </h2>
+              <p className="text-3xl font-bold text-rose-400 mt-2">
+                ₹{totalExpenses().toLocaleString()}
+              </p>
             </div>
-            <div className="bg-white p-6 rounded-lg shadow-md">
-              <h2 className="text-xl font-semibold text-gray-700">Total Balance</h2>
-              <p className="text-2xl font-bold text-blue-500">Rs {totalBalance()}</p>
+
+            {/* Total Balance */}
+            <div className="bg-gradient-to-br from-indigo-500/10 to-blue-600/5 border border-indigo-500/20 rounded-2xl p-6 shadow-lg shadow-indigo-500/5 hover:border-indigo-500/30 transition duration-300">
+              <h2 className="text-xs font-semibold text-indigo-400 uppercase tracking-wider">
+                Net Balance
+              </h2>
+              <p className="text-3xl font-bold text-indigo-400 mt-2">
+                ₹{totalBalance().toLocaleString()}
+              </p>
+            </div>
+          </div>
+
+          {/* Transaction Breakdown Doughnut Chart */}
+          <div className="bg-white/5 border border-white/5 rounded-2xl p-6 flex flex-col items-center justify-center flex-1 min-h-[340px]">
+            <h2 className="text-lg font-bold text-gray-200 self-start mb-4">
+              Breakdown Analysis
+            </h2>
+            <div className="w-full max-w-[280px] md:max-w-[320px] aspect-square flex items-center justify-center">
+              <Chart income={totalIncome()} expense={totalExpenses()} balance={totalBalance()} />
             </div>
           </div>
         </div>
 
-        <div className="history-con space-y-6">
-          <History />
-
-          <div className="salary-section">
-            <h2 className="text-xl font-semibold text-primary">
-              Min <span className="font-bold text-blue-500">Salary</span> & Max{" "}
-              <span className="font-bold text-blue-500">Salary</span>
-            </h2>
-            <div className="flex justify-between items-center bg-white p-4 rounded-lg shadow-md">
-              <p className="text-sm text-gray-500">Min Salary</p>
-              <p className="text-lg font-semibold text-green-600">
-                ₹{Math.min(...incomes.map((item) => item.amount))}
-              </p>
-            </div>
-            <div className="flex justify-between items-center bg-white p-4 rounded-lg shadow-md mt-4">
-              <p className="text-sm text-gray-500">Max Salary</p>
-              <p className="text-lg font-semibold text-green-600">
-                ₹{Math.max(...incomes.map((item) => item.amount))}
-              </p>
-            </div>
+        {/* Right Column: Recent Activity & Ranges */}
+        <div className="space-y-6">
+          {/* History Component */}
+          <div className="bg-white/5 border border-white/5 rounded-2xl p-6 shadow-xl">
+            <History />
           </div>
 
-          <div className="expense-section mt-8">
-            <h2 className="text-xl font-semibold text-primary">
-              Min <span className="font-bold text-red-500">Expense</span> & Max{" "}
-              <span className="font-bold text-red-500">Expense</span>
+          {/* Min & Max Analytics Panel */}
+          <div className="bg-white/5 border border-white/5 rounded-2xl p-6 space-y-6">
+            <h2 className="text-lg font-bold text-gray-200">
+              Salary & Expense Limits
             </h2>
-            <div className="flex justify-between items-center bg-white p-4 rounded-lg shadow-md">
-              <p className="text-sm text-gray-500">Min Expense</p>
-              <p className="text-lg font-semibold text-red-600">
-                ₹{Math.min(...expenses.map((item) => item.amount))}
+
+            {/* Salary Range */}
+            <div className="space-y-3">
+              <p className="text-xs font-semibold text-indigo-400 uppercase tracking-wider">
+                Incomes Range
               </p>
+              <div className="flex justify-between items-center bg-white/5 border border-white/5 px-4 py-3 rounded-xl">
+                <span className="text-sm text-gray-400">Minimum</span>
+                <span className="text-sm font-semibold text-emerald-400">₹{minSalary.toLocaleString()}</span>
+              </div>
+              <div className="flex justify-between items-center bg-white/5 border border-white/5 px-4 py-3 rounded-xl">
+                <span className="text-sm text-gray-400">Maximum</span>
+                <span className="text-sm font-semibold text-emerald-400">₹{maxSalary.toLocaleString()}</span>
+              </div>
             </div>
-            <div className="flex justify-between items-center bg-white p-4 rounded-lg shadow-md mt-4">
-              <p className="text-sm text-gray-500">Max Expense</p>
-              <p className="text-lg font-semibold text-red-600">
-                ₹{Math.max(...expenses.map((item) => item.amount))}
+
+            {/* Expense Range */}
+            <div className="space-y-3">
+              <p className="text-xs font-semibold text-rose-400 uppercase tracking-wider">
+                Expenses Range
               </p>
+              <div className="flex justify-between items-center bg-white/5 border border-white/5 px-4 py-3 rounded-xl">
+                <span className="text-sm text-gray-400">Minimum</span>
+                <span className="text-sm font-semibold text-rose-400">₹{minExpense.toLocaleString()}</span>
+              </div>
+              <div className="flex justify-between items-center bg-white/5 border border-white/5 px-4 py-3 rounded-xl">
+                <span className="text-sm text-gray-400">Maximum</span>
+                <span className="text-sm font-semibold text-rose-400">₹{maxExpense.toLocaleString()}</span>
+              </div>
             </div>
           </div>
         </div>
+
       </div>
     </div>
   );

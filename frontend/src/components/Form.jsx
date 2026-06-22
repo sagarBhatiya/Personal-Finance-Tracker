@@ -9,7 +9,7 @@ function Form() {
   const [inputState, setInputState] = useState({
     title: "",
     amount: "",
-    date: "",
+    date: null,
     category: "",
     description: "",
   });
@@ -18,6 +18,7 @@ function Form() {
 
   const handleInput = (name) => (e) => {
     setInputState({ ...inputState, [name]: e.target.value });
+    setError(null);
   };
 
   const handleSubmit = (e) => {
@@ -25,6 +26,11 @@ function Form() {
 
     if (!title || !amount || !date || !category) {
       setError("Please fill all required fields.");
+      return;
+    }
+
+    if (isNaN(amount) || parseFloat(amount) <= 0) {
+      setError("Amount must be a positive number!");
       return;
     }
 
@@ -37,7 +43,7 @@ function Form() {
     setInputState({
       title: "",
       amount: "",
-      date: "",
+      date: null,
       category: "",
       description: "",
     });
@@ -48,79 +54,93 @@ function Form() {
   return (
     <form
       onSubmit={handleSubmit}
-      className="max-w-md mx-auto bg-white p-6 rounded-lg shadow-md space-y-4"
+      className="bg-white/5 border border-white/5 p-6 rounded-2xl space-y-4 shadow-xl"
     >
-      <h2 className="text-xl font-bold text-gray-700 text-center">
+      <h2 className="text-lg font-bold text-gray-200">
         Add Income
       </h2>
 
-      {error && <p className="text-red-500 text-sm">{error}</p>}
+      {error && <p className="text-rose-400 text-xs font-medium">{error}</p>}
 
-      <input
-        type="text"
-        value={title}
-        name={"title"}
-        placeholder="Income Title"
-        onChange={handleInput("title")}
-        className="w-full p-2 border rounded-md focus:ring-2 focus:ring-blue-400"
-      />
+      <div className="space-y-1">
+        <label className="text-xs font-semibold text-gray-400 uppercase tracking-wider">
+          Title
+        </label>
+        <input
+          type="text"
+          value={title}
+          placeholder="e.g. Salary, Freelance"
+          onChange={handleInput("title")}
+          className="custom-input w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500/50 transition-all duration-200"
+        />
+      </div>
 
-      <input
-        value={amount}
-        type="text"
-        name={"amount"}
-        placeholder={"Amount"}
-        onChange={handleInput("amount")}
-        className="w-full p-2 border rounded-md focus:ring-2 focus:ring-blue-400"
-      />
+      <div className="space-y-1">
+        <label className="text-xs font-semibold text-gray-400 uppercase tracking-wider">
+          Amount (INR)
+        </label>
+        <input
+          value={amount}
+          type="text"
+          placeholder="e.g. 50000"
+          onChange={handleInput("amount")}
+          className="custom-input w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500/50 transition-all duration-200"
+        />
+      </div>
 
-      <DatePicker
-        selected={date}
-        placeholderText="Select Date"
-        dateFormat="dd/MM/yyyy"
-        onChange={(date) => setInputState({ ...inputState, date })}
-        className="w-full p-2 border rounded-md focus:ring-2 focus:ring-blue-400"
-      />
+      <div className="space-y-1 flex flex-col">
+        <label className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1">
+          Date
+        </label>
+        <DatePicker
+          selected={date}
+          placeholderText="Select Date"
+          dateFormat="dd/MM/yyyy"
+          onChange={(date) => setInputState({ ...inputState, date })}
+          className="custom-input w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500/50 transition-all duration-200 cursor-pointer"
+        />
+      </div>
 
-      <select
-        value={category}
-        name="category"
-        onChange={handleInput("category")}
-        className="w-full p-2 border rounded-md focus:ring-2 focus:ring-blue-400"
-      >
-        <option value="" disabled>
-          Select Category
-        </option>
-        <option value="salary">Salary</option>
-        <option value="freelancing">Freelancing</option>
-        <option value="investments">Investments</option>
-        <option value="stocks">Stocks</option>
-        <option value="bitcoin">Bitcoin</option>
-        <option value="bank">Bank Transfer</option>
-        <option value="youtube">YouTube</option>
-        <option value="other">Other</option>
-      </select>
+      <div className="space-y-1">
+        <label className="text-xs font-semibold text-gray-400 uppercase tracking-wider">
+          Category
+        </label>
+        <select
+          value={category}
+          onChange={handleInput("category")}
+          className="w-full bg-[#110e1a] border border-white/10 rounded-xl px-4 py-2.5 text-gray-300 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500/50 transition-all duration-200 cursor-pointer"
+        >
+          <option value="" disabled className="bg-[#110e1a]">
+            Select Category
+          </option>
+          <option value="salary" className="bg-[#110e1a]">Salary</option>
+          <option value="freelancing" className="bg-[#110e1a]">Freelancing</option>
+          <option value="investments" className="bg-[#110e1a]">Investments</option>
+          <option value="stocks" className="bg-[#110e1a]">Stocks</option>
+          <option value="bitcoin" className="bg-[#110e1a]">Bitcoin</option>
+          <option value="bank" className="bg-[#110e1a]">Bank Transfer</option>
+          <option value="youtube" className="bg-[#110e1a]">YouTube</option>
+          <option value="other" className="bg-[#110e1a]">Other</option>
+        </select>
+      </div>
 
-      <textarea
-        name="description"
-        value={description}
-        placeholder="Add a Reference"
-        onChange={handleInput("description")}
-        className="w-full p-2 border rounded-md focus:ring-2 focus:ring-blue-400"
-        rows="4"
-      ></textarea>
+      <div className="space-y-1">
+        <label className="text-xs font-semibold text-gray-400 uppercase tracking-wider">
+          Description
+        </label>
+        <textarea
+          value={description}
+          placeholder="Add a reference note"
+          onChange={handleInput("description")}
+          className="custom-input w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-white placeholder-gray-500 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500/50 transition-all duration-200 h-20 resize-none"
+        ></textarea>
+      </div>
 
       <button
-        name={"Add Income"}
-        icon={plus}
-        bPad={".8rem 1.6rem"}
-        bRad={"30px"}
-        bg={"var(--color-accent"}
-        color={"#fff"}
         type="submit"
-        className="w-full p-3 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition duration-300"
+        className="w-full py-3 px-4 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 active:scale-[0.98] rounded-xl shadow-lg shadow-emerald-600/20 text-white font-semibold flex items-center justify-center gap-2 transition-all duration-200 mt-2 cursor-pointer"
       >
-        Add Income
+        {plus} Add Income
       </button>
     </form>
   );

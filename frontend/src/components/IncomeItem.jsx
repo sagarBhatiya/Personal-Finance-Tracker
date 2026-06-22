@@ -50,7 +50,7 @@ function IncomeItem({
       case "other":
         return piggy;
       default:
-        return "";
+        return circle;
     }
   };
 
@@ -73,33 +73,55 @@ function IncomeItem({
       case "other":
         return circle;
       default:
-        return "";
+        return circle;
     }
   };
 
+  const isExpense = type === "expense";
+
   return (
-    <div className="bg-pink-100 border-2 border-white shadow-md rounded-2xl p-4 mb-4 flex items-center gap-4 w-full text-gray-800">
-      <div className="w-20 h-20 rounded-2xl bg-gray-200 flex items-center justify-center border-2 border-white text-3xl">
-        {type === "expense" ? expenseCatIcon() : categoryIcon()}
+    <div
+      className={`bg-white/5 hover:bg-white/10 rounded-2xl p-4 flex items-center gap-4 w-full border border-white/5 border-l-4 transition-all duration-300 ${
+        isExpense ? "border-l-rose-500" : "border-l-emerald-500"
+      }`}
+    >
+      {/* Icon Wrapper */}
+      <div className={`w-14 h-14 rounded-xl flex items-center justify-center border border-white/5 text-2xl bg-white/5 ${
+        isExpense ? "text-rose-400" : "text-emerald-400"
+      }`}>
+        {isExpense ? expenseCatIcon() : categoryIcon()}
       </div>
-      <div className="flex-1 flex flex-col gap-1">
-        <h5 className="text-lg font-semibold pl-6 relative">
-          {title}
-          <span className="absolute left-0 top-1/2 -translate-y-1/2 w-3 h-3 rounded-full bg-green-500"></span>
-        </h5>
-        <div className="flex justify-between items-center">
-          <div className="flex items-center gap-6 text-gray-600">
-            <p className="flex items-center gap-1">Rs {amount}</p>
-            <p className="flex items-center gap-1">
+
+      {/* Details Container */}
+      <div className="flex-1 flex flex-col gap-1 min-w-0">
+        <div className="flex items-center gap-2">
+          <span className={`w-2 h-2 rounded-full ${isExpense ? "bg-rose-500" : "bg-emerald-500"}`}></span>
+          <h5 className="text-base font-bold text-gray-200 truncate">
+            {title}
+          </h5>
+        </div>
+
+        <div className="flex flex-wrap items-center justify-between gap-4 mt-1">
+          {/* Metadata */}
+          <div className="flex flex-wrap items-center gap-x-5 gap-y-1 text-xs text-gray-400">
+            <span className={`font-semibold ${isExpense ? "text-rose-400" : "text-emerald-400"}`}>
+              {isExpense ? "-" : "+"}₹{amount.toLocaleString()}
+            </span>
+            <span className="flex items-center gap-1.5">
               {calender} {dateFormat(date)}
-            </p>
-            <p className="flex items-center gap-1">
-              {comment} {description}
-            </p>
+            </span>
+            {description && (
+              <span className="flex items-center gap-1.5 truncate max-w-[150px] md:max-w-[200px]" title={description}>
+                {comment} {description}
+              </span>
+            )}
           </div>
+
+          {/* Action button */}
           <button
-            className="p-4 rounded-full bg-green-500 text-white hover:bg-green-600"
+            className="p-2.5 rounded-xl bg-rose-500/10 text-rose-400 hover:bg-rose-500 hover:text-white transition duration-200 cursor-pointer self-end md:self-center ml-auto"
             onClick={() => deleteItem(id)}
+            title="Delete Transaction"
           >
             {trash}
           </button>
